@@ -1,5 +1,7 @@
 import { useData } from "../../context/dataHabitContext"
 import { HabitCard } from "../HabitCard/HabitCard"
+import { Loader } from "../Loader/Loader";
+import { GoX } from "react-icons/go";
 
 
 export const HabitContent: React.FC = () => {
@@ -7,7 +9,11 @@ export const HabitContent: React.FC = () => {
     const { habits,
         newHabit,
         addHabit,
-        setNewHabit } = useData()
+        setNewHabit,
+        error,
+        setError,
+        loading
+        } = useData()
 
     return (
         <main>
@@ -24,10 +30,23 @@ export const HabitContent: React.FC = () => {
                 >Agregar</button>
             </div>
             <div className="space-y-4">
+                {loading && <Loader />}
                 {habits?.map((habit) => (
                     <HabitCard key={habit.id} habit={habit} />
                 ))}
             </div>
+
+            {error &&
+            <div className="w-max h-max grid grid-cols-1 grid-rows-2 gap-2
+                            absolute top-0 left-0 right-0 bottom-0
+                            bg-white m-auto px-8 py-4 rounded-xl border-2 border-blue-700 ">
+                <button onClick={()=> {setError(null)}}
+                       className="justify-self-end text-blue-500 hover:text-blue-700 ">
+                    <GoX className="h-5 w-5" />
+                </button>
+                <p className="text-xl font-semibold text-gray-800 pb-4">{error}</p>
+            </div>
+            }
         </main>
     )
 }

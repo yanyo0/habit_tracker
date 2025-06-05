@@ -15,4 +15,7 @@ export  type DataHabitContext = {
     addHabit: () => Promise<void>
     deleteHabite: (id: string) => Promise<void>
     toggleDate : (habitId: string, date: string) => Promise<void>
+    error : string | null
+    setError : Dispatch<SetStateAction<string | null>>
+    loading: boolean
   }

@@ -1,9 +1,10 @@
 import type { Habit } from '../../types';
 import { useData } from '../../context/dataHabitContext';
 import { FaTrash as TrashIcon } from 'react-icons/fa';
+import React from 'react';
 
 
-export const HabitCard = ({ habit }: { habit: Habit }) => {
+export const HabitCard = React.memo(({ habit }: { habit: Habit }) => {
 
 const {toggleDate, deleteHabite} = useData()
 
@@ -42,6 +43,6 @@ const {toggleDate, deleteHabite} = useData()
       </div>
     </div>
   );
-};
+})
 
 

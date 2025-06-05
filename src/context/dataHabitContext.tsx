@@ -7,8 +7,10 @@ import type { Habit, DataHabitContext } from "../types";
 export const DataContext = createContext<DataHabitContext>({} as DataHabitContext)
 
 export const DataHabitProvider = ({ children }: { children: React.ReactNode }) => {
-    const [habits, setHabits] = useState<Habit[]>([]);
+      const [habits, setHabits] = useState<Habit[]>([]);
       const [newHabit, setNewHabit] = useState('');
+      const [loading, setLoading] = useState<boolean>(true)
+      const [error, setError] = useState<string | null>(null);
     
       const [user] = useAuthState(auth);
     
@@ -18,13 +20,21 @@ export const DataHabitProvider = ({ children }: { children: React.ReactNode }) =
             setHabits([]);
             return
         }
-    
-        const querySnapshot = await getDocs(collection(db, "users", user.uid, 'habits'));
-        const habitsData = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })) as Habit[];
-        setHabits(habitsData);
+        try{
+            setLoading(true)
+            const querySnapshot = await getDocs(collection(db, "users", user.uid, 'habits'));
+            const habitsData = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+            })) as Habit[];
+            setHabits(habitsData);
+        } catch (error) {
+            setError('Error cargar información');
+        }
+        finally{
+          setLoading(false)
+        }
+      
       };
     
       const addHabit = async () => {
@@ -38,7 +48,7 @@ export const DataHabitProvider = ({ children }: { children: React.ReactNode }) =
               fetchHabits();
         }
         catch (error){
-            console.log(error)
+            setError('Error al agregar hábito');
         }
       
       };
@@ -49,21 +59,26 @@ export const DataHabitProvider = ({ children }: { children: React.ReactNode }) =
             await deleteDoc(doc(db, "users", user.uid, 'habits', id));
             fetchHabits();
           } catch (error) {
-            console.log(error)
+            setError('Error no se puedo eliminar');
           }
       }
 
     
       const toggleDate = async (habitId: string, date: string) => {
         if(!user)return
-        const habitRef = doc(db, "users", user.uid, 'habits', habitId);
-        const habit = habits.find(h => h.id === habitId)!;
-        const updatedDates = habit.completedDates.includes(date)
-          ? habit.completedDates.filter(d => d !== date)
-          : [...habit.completedDates, date];
-      
-        await updateDoc(habitRef, { completedDates: updatedDates });
-        fetchHabits();
+        try{
+            const habitRef = doc(db, "users", user.uid, 'habits', habitId);
+            const habit = habits.find(h => h.id === habitId)!;
+            const updatedDates = habit.completedDates.includes(date)
+              ? habit.completedDates.filter(d => d !== date)
+              : [...habit.completedDates, date];
+          
+            await updateDoc(habitRef, { completedDates: updatedDates });
+            fetchHabits();
+        } catch (error) {
+            setError('No se actualizo correctamente');
+        }
+     
       };
 
       const data : DataHabitContext = {
@@ -74,7 +89,10 @@ export const DataHabitProvider = ({ children }: { children: React.ReactNode }) =
         fetchHabits,
         addHabit,
         deleteHabite,
-        toggleDate
+        toggleDate,
+        error,
+        setError,
+        loading
       }
 
       return (
