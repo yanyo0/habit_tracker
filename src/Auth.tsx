@@ -1,4 +1,4 @@
-import { auth, provider } from "./firebase"
+import { auth, provider } from "./services/firebase"
 import { signInWithRedirect } from "firebase/auth";
 
 

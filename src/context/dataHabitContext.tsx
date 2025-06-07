@@ -1,5 +1,5 @@
 import { createContext, useState , useContext} from "react"
-import { db, auth } from "../firebase";
+import { db, auth } from "../services/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import  { collection, addDoc, getDocs, updateDoc, doc,deleteDoc} from "firebase/firestore";
 import type { Habit, DataHabitContext } from "../types";
