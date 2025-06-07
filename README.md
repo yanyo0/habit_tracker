@@ -1,6 +1,6 @@
 📋 Habit Tracker - Gestor de Hábitos
 
-Captura de la aplicación en funcionamiento
+![Captura de la aplicación en funcionamiento](./src/assets/habit-tracker-view.jpg)  
 
 🚀 Tecnologías Utilizadas
 Frontend: React + TypeScript + Vite
@@ -39,7 +39,10 @@ Clona el repositorio:
 
 bash
 git clone https://github.com/yanyo0/habit_tracker.git
+
 cd habit_tracker
 
-📄 Licencia
-MIT © Tu Nombre
+
+🔗 Enlaces
+
+ [Ver Habit Tracker App](https://habit-tracker-amber-two.vercel.app/)
