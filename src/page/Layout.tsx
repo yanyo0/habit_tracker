@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { HabitContent } from "../components/HabitContent/HabitContent";
 import { Header } from "../components/Header/Header"
 import { Loader } from "../components/Loader/Loader";
-import { Auth } from "../Auth";
+import { SignIn } from "../components/Auth/SignIn";
 import {  getRedirectResult } from "firebase/auth";
 
 
@@ -36,7 +36,7 @@ export const Layout: React.FC = () => {
 
             <Header />
             {loading && <Loader />}
-            {!user ? <Auth /> : <HabitContent />}
+            {!user ? <SignIn /> : <HabitContent />}
             
         </div>
     )

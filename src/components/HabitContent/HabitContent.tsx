@@ -1,6 +1,7 @@
 import { useData } from "../../context/dataHabitContext"
 import { HabitCard } from "../HabitCard/HabitCard"
 import { Loader } from "../Loader/Loader";
+import { SignOut } from "../Auth/SignOut";
 import { GoX } from "react-icons/go";
 
 
@@ -17,7 +18,11 @@ export const HabitContent: React.FC = () => {
 
     return (
         <main>
+            <div className="w-full flex justify-end my-7">
+            <SignOut  />
+            </div>
             <div className="flex gap-2 mb-8">
+            
                 <input
                     type="text"
                     value={newHabit}
