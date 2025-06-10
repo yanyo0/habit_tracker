@@ -1,10 +1,10 @@
 import { auth, provider } from "../../services/firebase"
-import { signInWithRedirect } from "firebase/auth";
+import {  signInWithPopup } from "firebase/auth";
 
 export const SignIn = () => {
   const signInWithGoogle = async () => {
     try {
-      await signInWithRedirect(auth, provider);
+      await signInWithPopup(auth, provider)
     } catch (error) {
       console.error("Error al iniciar sesión con Google:", error);
     }
